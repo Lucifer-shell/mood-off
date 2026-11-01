@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Royal Sovereign — Luxury Hotel & Fine Dining</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --panel: rgba(22, 25, 32, 0.75);
+      --accent: #d4af37; /* Gold theme */
+      --accent-glow: rgba(212, 175, 55, 0.2);
+      --text: #f4f4f6;
+      --muted: #9a9ea8;
+      --border: rgba(255, 255, 255, 0.1);
+      --serif: 'Instrument Serif', Georgia, serif;
+      --sans: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: var(--sans); overflow-x: hidden; }
+
+    /* Glassmorphism Classes */
+    .glass {
+      background: var(--panel);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--border);
+    }
+
+    /* Navbar */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 18px 8%; border-bottom: 1px solid var(--border);
+    }
+    .brand { font-family: var(--serif); font-size: 24px; color: var(--accent); letter-spacing: 1px; }
+    nav a { color: var(--muted); text-decoration: none; margin-left: 24px; font-size: 14px; font-weight: 500; transition: 0.3s; }
+    nav a:hover { color: var(--text); }
+
+    .cart-btn {
+      background: var(--accent-glow); border: 1px solid var(--accent);
+      color: var(--accent); padding: 8px 16px; border-radius: 20px;
+      cursor: pointer; font-weight: 600; font-size: 13px;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 90vh; display: flex; flex-direction: column;
+      justify-content: center; align-items: center; text-align: center;
+      padding: 0 10%; background: radial-gradient(circle at center, rgba(212,175,55,0.08) 0%, transparent 70%);
+    }
+    .hero h1 { font-family: var(--serif); font-size: clamp(48px, 6vw, 84px); font-weight: 400; margin-bottom: 16px; }
+    .hero p { color: var(--muted); max-width: 580px; font-size: 16px; line-height: 1.6; margin-bottom: 24px; }
+    
+    .badge-bar {
+      display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 32px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+      padding: 6px 14px; border-radius: 20px; font-size: 12px; color: var(--accent);
+    }
+
+    .btn-gold {
+      background: var(--accent); color: #000; padding: 12px 28px;
+      border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 14px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px var(--accent-glow); }
+
+    /* Features Section */
+    .features-section { padding: 60px 8%; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+    .feature-card { padding: 24px; border-radius: 16px; text-align: center; }
+    .feature-card h3 { font-family: var(--serif); font-size: 24px; color: var(--accent); margin-bottom: 8px; }
+    .feature-card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+
+    /* Rooms Section */
+    .rooms-section { padding: 60px 8%; }
+    .section-title { text-align: center; font-family: var(--serif); font-size: 42px; margin-bottom: 8px; }
+    .section-sub { text-align: center; color: var(--muted); margin-bottom: 40px; font-size: 14px; }
+
+    .room-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .room-card { padding: 24px; border-radius: 16px; display: flex; flex-direction: column; justify-content: space-between; }
+    .room-title { font-size: 20px; font-weight: 600; margin-bottom: 8px; }
+    .room-desc { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 20px; }
+    .room-bottom { display: flex; justify-content: space-between; align-items: center; }
+
+    /* Menu Section */
+    .menu-section { padding: 60px 8%; }
+    .menu-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+    .menu-card { border-radius: 16px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-title { font-size: 18px; font-weight: 600; margin-bottom: 8px; }
+    .card-desc { color: var(--muted); font-size: 13px; line-height: 1.5; margin-bottom: 16px; }
+    .card-bottom { display: flex; justify-content: space-between; align-items: center; }
+    .price { font-size: 18px; font-weight: 700; color: var(--accent); }
+    .add-btn {
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      color: var(--text); padding: 8px 14px; border-radius: 8px; cursor: pointer;
+      font-size: 12px; font-weight: 600; transition: 0.2s;
+    }
+    .add-btn:hover { background: var(--accent); color: #000; }
+
+    /* Cart Drawer */
+    .cart-drawer {
+      position: fixed; top: 0; right: -400px; width: 360px; height: 100vh;
+      z-index: 200; padding: 30px; display: flex; flex-direction: column;
+      transition: right 0.4s ease;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item { display: flex; justify-content: space-between; margin-bottom: 16px; border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+    .checkout-btn {
+      width: 100%; padding: 14px; background: var(--accent); border: none;
+      border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 16px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="glass">
+    <div class="brand">ROYAL SOVEREIGN</div>
+    <nav>
+      <a href="#rooms">AC Rooms</a>
+      <a href="#dining">Dining Area</a>
+      <a href="#menu">Delivery</a>
+    </nav>
+    <button class="cart-btn" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</button>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <h1>Premier Stay & Fine Dining</h1>
+    <p>Enjoy fully air-conditioned luxury rooms and ultra-hygienic dining, or get hot gourmet food delivered straight to your home.</p>
+    
+    <div class="badge-bar">
+      <span class="badge">❄️ 100% Fully AC Rooms</span>
+      <span class="badge">✨ Hygienic Dining Area</span>
+      <span class="badge">🚀 Free Delivery within 5 km</span>
+    </div>
+
+    <div style="display:flex; gap:16px;">
+      <a href="#menu" class="btn-gold">Order Food Online</a>
+      <a href="#rooms" class="btn-gold" style="background:transparent; color:var(--text); border:1px solid var(--border);">Book AC Room</a>
+    </div>
+  </section>
+
+  <!-- Key Highlights -->
+  <section class="features-section">
+    <div class="feature-card glass">
+      <h3>Premium AC Stays</h3>
+      <p>Equipped with climate control, high-speed Wi-Fi, ambient lighting, and 24/7 room service.</p>
+    </div>
+    <div class="feature-card glass">
+      <h3>Clean Dining Area</h3>
+      <p>Sanitized, spacious, and family-friendly dining space prepared for comfort and safety.</p>
+    </div>
+    <div class="feature-card glass">
+      <h3>Free Local Delivery</h3>
+      <p>Complimentary express doorstep delivery for all orders within a 5 km radius.</p>
+    </div>
+  </section>
+
+  <!-- Rooms Section -->
+  <section class="rooms-section" id="rooms">
+    <h2 class="section-title">Luxury AC Accommodations</h2>
+    <p class="section-sub">Designed for maximum comfort and relaxation</p>
+
+    <div class="room-grid">
+      <div class="room-card glass">
+        <div>
+          <div class="room-title">Deluxe AC Room</div>
+          <p class="room-desc">Ideal for solo travelers or couples. Queen-size bed, silent split AC, smart TV, and modern bath amenities.</p>
+        </div>
+        <div class="room-bottom">
+          <span class="price">₹1,999 / night</span>
+          <button class="add-btn" onclick="bookRoom('Deluxe AC Room')">Inquire Room</button>
+        </div>
+      </div>
+
+      <div class="room-card glass">
+        <div>
+          <div class="room-title">Executive Suite AC</div>
+          <p class="room-desc">Spacious suite featuring king bed, private lounge workspace, mini-fridge, and complimentary breakfast.</p>
+        </div>
+        <div class="room-bottom">
+          <span class="price">₹3,499 / night</span>
+          <button class="add-btn" onclick="bookRoom('Executive Suite AC')">Inquire Room</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Online Delivery Menu -->
+  <section class="menu-section" id="menu">
+    <h2 class="section-title">Online Food Delivery</h2>
+    <p class="section-sub">⚡ Free delivery within 5 km on all orders</p>
+
+    <div class="menu-grid">
+      <div class="menu-card glass">
+        <div>
+          <div class="card-title">Truffle Butter Paneer / Chicken Tikka</div>
+          <p class="card-desc">Charcoal-grilled and simmered in a rich cream and black truffle infused gravy.</p>
+        </div>
+        <div class="card-bottom">
+          <span class="price">₹450</span>
+          <button class="add-btn" onclick="addToCart('Truffle Butter Tikka', 450)">+ Add to Order</button>
+        </div>
+      </div>
+
+      <div class="menu-card glass">
+        <div>
+          <div class="card-title">Royal Awadhi Biryani</div>
+          <p class="card-desc">Slow-cooked long-grain basmati rice with aromatic whole spices and saffron.</p>
+        </div>
+        <div class="card-bottom">
+          <span class="price">₹520</span>
+          <button class="add-btn" onclick="addToCart('Royal Awadhi Biryani', 520)">+ Add to Order</button>
+        </div>
+      </div>
+
+      <div class="menu-card glass">
+        <div>
+          <div class="card-title">Artisanal Garlic Naan Basket</div>
+          <p class="card-desc">Freshly baked in our clay tandoor with roasted garlic and herb butter.</p>
+        </div>
+        <div class="card-bottom">
+          <span class="price">₹180</span>
+          <button class="add-btn" onclick="addToCart('Garlic Naan Basket', 180)">+ Add to Order</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Slide-out Cart Drawer -->
+  <div class="cart-drawer glass" id="cart-drawer">
+    <div class="cart-header">
+      <h3>Your Delivery Order</h3>
+      <button onclick="toggleCart()" style="background:none; border:none; color:var(--text); cursor:pointer;">✕</button>
+    </div>
+    <div class="cart-items" id="cart-items">
+      <p style="color:var(--muted); text-align:center; margin-top:40px;">Your cart is empty</p>
+    </div>
+    <div style="border-top: 1px solid var(--border); padding-top:16px;">
+      <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--accent); margin-bottom:8px;">
+        <span>Delivery Fee (Within 5km):</span>
+        <span>FREE</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; font-weight:700; margin-bottom:12px;">
+        <span>Total:</span>
+        <span id="cart-total" style="color:var(--accent);">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="sendOrder()">Send Order via WhatsApp</button>
+    </div>
+  </div>
+
+  <script>
+    let cart = [];
+
+    function toggleCart() {
+      document.getElementById('cart-drawer').classList.toggle('open');
+    }
+
+    function addToCart(name, price) {
+      cart.push({ name, price });
+      updateCart();
+    }
+
+    function updateCart() {
+      document.getElementById('cart-count').innerText = cart.length;
+      const container = document.getElementById('cart-items');
+      
+      if (cart.length === 0) {
+        container.innerHTML = `<p style="color:var(--muted); text-align:center; margin-top:40px;">Your cart is empty</p>`;
+        document.getElementById('cart-total').innerText = `₹0`;
+        return;
+      }
+
+      let total = 0;
+      container.innerHTML = cart.map((item, index) => {
+        total += item.price;
+        return `
+          <div class="cart-item">
+            <div>
+              <div style="font-size:14px; font-weight:600;">${item.name}</div>
+              <div style="color:var(--accent); font-size:13px;">₹${item.price}</div>
+            </div>
+            <button onclick="removeItem(${index})" style="background:none; border:none; color:#ff5555; cursor:pointer;">Remove</button>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('cart-total').innerText = `₹${total}`;
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function sendOrder() {
+      if (cart.length === 0) return alert("Add some items first!");
+      
+      let text = "Hello Royal Sovereign, I would like to place an online order (Free Delivery within 5km):\n\n";
+      let total = 0;
+      cart.forEach((item, i) => {
+        text += `${i+1}. ${item.name} - ₹${item.price}\n`;
+        total += item.price;
+      });
+      text += `\nTotal Amount: ₹${total}\nDelivery Charge: FREE (Within 5km)\n\nPlease confirm order and request my location.`;
+
+      // Replace with hotel owner's WhatsApp phone number
+      const phoneNumber = "919876543210"; 
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+
+    function bookRoom(roomName) {
+      let text = `Hello Royal Sovereign, I am interested in booking the *${roomName}*. Please share room availability and reservation details.`;
+      const phoneNumber = "919876543210"; 
+      window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(text)}`, '_blank');
+    }
+  </script>
+</body>
+</html>
