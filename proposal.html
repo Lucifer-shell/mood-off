@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-[#07090e] text-slate-100 overflow-hidden select-none">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kyōka Suigetsu // Eternal Bound</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Outfit:wght@300;400;600&family=Playfair+Display:ital,wght@0,600;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        cinzel: ['"Cinzel"', 'serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Outfit"', 'sans-serif'],
+                    },
+                    colors: {
+                        obsidian: '#07090e',
+                        violetGlow: '#9d4edd',
+                        crimsonGlow: '#ff2a6d',
+                        goldGlow: '#ffd166',
+                    },
+                    animation: {
+                        'float-slow': 'floatSlow 6s ease-in-out infinite',
+                        'pulse-glow': 'pulseGlow 3.5s ease-in-out infinite alternate',
+                        'shatter-flash': 'shatterFlash 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        floatSlow: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulseGlow: {
+                            '0%': { filter: 'drop-shadow(0 0 20px rgba(157, 78, 221, 0.25))' },
+                            '100%': { filter: 'drop-shadow(0 0 40px rgba(157, 78, 221, 0.6))' },
+                        },
+                        shatterFlash: {
+                            '0%': { opacity: '0', backgroundColor: 'rgba(255, 255, 255, 0.95)' },
+                            '15%': { opacity: '1', backgroundColor: 'rgba(255, 42, 109, 0.5)' },
+                            '100%': { opacity: '0', backgroundColor: 'transparent' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Ambient Vignette Overlay */
+        .vignette {
+            background: radial-gradient(circle at center, transparent 20%, rgba(7, 9, 14, 0.92) 85%);
+        }
+
+        /* Glassmorphism Panel Styles */
+        .glass-card {
+            background: rgba(14, 16, 24, 0.72);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(157, 78, 221, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.75), inset 0 0 25px rgba(157, 78, 221, 0.1);
+        }
+
+        .glass-card-hypnosis {
+            background: rgba(22, 10, 26, 0.88);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 42, 109, 0.6);
+            box-shadow: 0 0 60px rgba(255, 42, 109, 0.35), inset 0 0 35px rgba(255, 42, 109, 0.2);
+        }
+
+        .glass-card-accepted {
+            background: rgba(22, 18, 32, 0.82);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 209, 102, 0.5);
+            box-shadow: 0 30px 70px rgba(157, 78, 221, 0.3), inset 0 0 35px rgba(255, 209, 102, 0.18);
+        }
+
+        /* Glitch Effect for Rejection Text */
+        .glitch-text {
+            position: relative;
+            display: inline-block;
+        }
+        .glitch-text::before, .glitch-text::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            clip: rect(0, 0, 0, 0);
+        }
+        .glitch-active::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff2a6d;
+            animation: glitch-anim-1 0.25s infinite linear alternate-reverse;
+        }
+        .glitch-active::after {
+            left: -2px;
+            text-shadow: -2px 0 #9d4edd;
+            animation: glitch-anim-2 0.25s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim-1 {
+            0% { clip: rect(15px, 9999px, 35px, 0); }
+            50% { clip: rect(55px, 9999px, 15px, 0); }
+            100% { clip: rect(25px, 9999px, 75px, 0); }
+        }
+        @keyframes glitch-anim-2 {
+            0% { clip: rect(65px, 9999px, 15px, 0); }
+            50% { clip: rect(15px, 9999px, 45px, 0); }
+            100% { clip: rect(35px, 9999px, 25px, 0); }
+        }
+
+        /* Button Glow & Shimmer Effect */
+        .btn-glow {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .btn-glow::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: linear-gradient(60deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+            transform: rotate(30deg) translateY(-100%);
+            transition: transform 0.7s ease;
+        }
+        .btn-glow:hover::after {
+            transform: rotate(30deg) translateY(100%);
+        }
+    </style>
+</head>
+<body class="h-full bg-obsidian font-sans antialiased relative flex items-center justify-center p-4">
+
+    <!-- Background Particle Canvas -->
+    <canvas id="bgCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-0"></canvas>
+
+    <!-- Mirror Shatter Effect Canvas -->
+    <canvas id="shatterCanvas" class="fixed inset-0 w-full h-full pointer-events-none z-30 hidden"></canvas>
+
+    <!-- Screen Flash Overlay -->
+    <div id="flashOverlay" class="fixed inset-0 pointer-events-none z-40 opacity-0"></div>
+
+    <!-- Vignette Shadow Overlay -->
+    <div class="fixed inset-0 vignette pointer-events-none z-10"></div>
+
+    <!-- MAIN SOLE CONTAINER: CENTER CARD ONLY -->
+    <main class="relative z-20 w-full max-w-lg mx-auto flex items-center justify-center min-h-screen my-auto">
+
+        <!-- ================================================================= -->
+        <!-- STATE 1: INITIAL PROPOSAL CARD -->
+        <!-- ================================================================= -->
+        <div id="proposalCard" class="w-full glass-card rounded-3xl p-8 sm:p-11 text-center animate-float-slow animate-pulse-glow transition-all duration-700 relative">
+            
+            <!-- Sound Toggle Button Inside Card -->
+            <button id="soundToggleBtn" class="absolute top-5 right-5 p-2.5 rounded-full bg-slate-900/80 border border-purple-500/30 text-purple-300 hover:text-white hover:border-purple-400 transition shadow-lg text-xs flex items-center space-x-2" title="Toggle Sound">
+                <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+            </button>
+
+            <!-- Top Aesthetics Header -->
+            <div class="mb-5 text-purple-400/80 font-cinzel text-xs tracking-[0.4em] uppercase flex items-center justify-center space-x-3">
+                <span class="h-[1px] w-8 bg-purple-500/40"></span>
+                <span>鏡花水月 // INFINITE TRUTH</span>
+                <span class="h-[1px] w-8 bg-purple-500/40"></span>
+            </div>
+
+            <!-- Main Proposal Title -->
+            <h1 class="font-cinzel text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-purple-300 to-indigo-200 tracking-wide mb-6">
+                Across All Timelines
+            </h1>
+
+            <!-- Aesthetic Proposal Message -->
+            <p id="proposalText" class="font-serif italic text-base sm:text-lg text-slate-200 leading-relaxed mb-8">
+                "In every thread of fate, among infinite possibilities, my path was always drawn to you. Will you walk through eternity with me?"
+            </p>
+
+            <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-purple-500/60 to-transparent mx-auto mb-8"></div>
+
+            <!-- Proposal Action Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                
+                <!-- ACCEPTANCE BUTTON -->
+                <button id="yesBtn" class="btn-glow w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-700 hover:from-purple-500 hover:to-indigo-500 text-white font-cinzel font-bold text-sm tracking-widest uppercase shadow-lg shadow-purple-900/40 border border-purple-300/30 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                    <i class="fa-solid fa-gem mr-2 text-xs text-goldGlow"></i> Yes, Always
+                </button>
+
+                <!-- REJECTION BUTTON -->
+                <button id="noBtn" class="w-full sm:w-auto px-8 py-3.5 rounded-full bg-slate-950/80 hover:bg-slate-900 text-slate-400 hover:text-slate-200 font-cinzel text-sm tracking-widest uppercase border border-slate-800 hover:border-slate-700 transition transform hover:-translate-y-0.5 active:translate-y-0">
+                    Decline
+                </button>
+            </div>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- STATE 2: REJECTION / KYOKA SUIGETSU SHATTER -->
+        <!-- ================================================================= -->
+        <div id="shatterCard" class="hidden w-full glass-card-hypnosis rounded-3xl p-8 sm:p-11 text-center transition-all duration-700 relative overflow-hidden">
+            
+            <div class="text-crimsonGlow font-cinzel text-xs tracking-[0.5em] uppercase mb-4 animate-pulse">
+                砕けろ 鏡花水月 // COMPLETE HYPNOSIS
+            </div>
+
+            <h2 id="shatterTitle" class="font-cinzel text-2xl sm:text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-crimsonGlow to-purple-400 mb-6 glitch-text" data-text="Shatter... Kyōka Suigetsu">
+                Shatter... Kyōka Suigetsu
+            </h2>
+
+            <p class="font-serif italic text-base sm:text-lg text-slate-100 leading-relaxed mb-8">
+                "Since when were you under the impression that you had a choice? You are mine. Always have been."
+            </p>
+
+            <div class="w-20 h-[1px] bg-gradient-to-r from-transparent via-crimsonGlow to-transparent mx-auto mb-8"></div>
+
+            <button id="reconsiderBtn" class="btn-glow px-9 py-4 rounded-full bg-gradient-to-r from-rose-700 via-purple-700 to-indigo-800 hover:from-rose-600 hover:to-indigo-700 text-white font-cinzel font-bold text-sm tracking-widest uppercase shadow-xl shadow-rose-950/60 border border-rose-400/40 transition transform hover:scale-105">
+                <i class="fa-solid fa-crown mr-2 text-goldGlow"></i> Accept Fate
+            </button>
+        </div>
+
+        <!-- ================================================================= -->
+        <!-- STATE 3: ACCEPTANCE CARD -->
+        <!-- ================================================================= -->
+        <div id="acceptedCard" class="hidden w-full glass-card-accepted rounded-3xl p-8 sm:p-11 text-center transition-all duration-1000 transform scale-95 opacity-0">
+            
+            <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-400 to-purple-500 p-[1px] mx-auto mb-6 shadow-xl shadow-purple-900/50 flex items-center justify-center">
+                <div class="w-full h-full bg-slate-950 rounded-full flex items-center justify-center">
+                    <i class="fa-solid fa-infinity text-2xl text-goldGlow animate-pulse"></i>
+                </div>
+            </div>
+
+            <div class="text-amber-300 font-cinzel text-xs tracking-[0.4em] uppercase mb-2">
+                DESIRE REALIZED // 完璧な未来
+            </div>
+
+            <h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-purple-200 to-amber-300 mb-6">
+                Eternity Locked In Sync
+            </h2>
+
+            <blockquote class="font-serif italic text-base sm:text-lg text-purple-100 leading-relaxed mb-8 bg-purple-950/30 border-l-2 border-amber-400/80 p-4 rounded-r-2xl text-left">
+                "Your heartbeat is now bound to mine in absolute harmony. Among all calculations across time and space, choosing me is the only truth that ever mattered."
+            </blockquote>
+
+            <p class="text-xs font-mono text-purple-300/80 uppercase tracking-widest">
+                — Bound Together In Eternity
+            </p>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // =====================================================================
+        // AUDIO SYNTHESIS ENGINE (Web Audio API)
+        // =====================================================================
+        class SoundEngine {
+            constructor() {
+                this.ctx = null;
+                this.isEnabled = true;
+            }
+
+            init() {
+                if (!this.ctx) {
+                    this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            // Ethereal Harmonic Chord on Acceptance
+            playAcceptanceChimes() {
+                if (!this.isEnabled) return;
+                this.init();
+
+                const freqs = [523.25, 659.25, 783.99, 1046.50, 1318.51]; // C5, E5, G5, C6, E6
+                freqs.forEach((freq, index) => {
+                    setTimeout(() => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+
+                        gain.gain.setValueAtTime(0.01, this.ctx.currentTime);
+                        gain.gain.linearRampToValueAtTime(0.2, this.ctx.currentTime + 0.1);
+                        gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 2.5);
+
+                        osc.connect(gain);
+                        gain.connect(this.ctx.destination);
+
+                        osc.start();
+                        osc.stop(this.ctx.currentTime + 2.6);
+                    }, index * 160);
+                });
+            }
+
+            // Glass Shatter Sound on Rejection
+            playShatterSound() {
+                if (!this.isEnabled) return;
+                this.init();
+
+                const now = this.ctx.currentTime;
+
+                // High frequency glass crack / noise burst
+                const bufferSize = this.ctx.sampleRate * 0.35;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    data[i] = (Math.random() * 2 - 1) * Math.exp(-i / (bufferSize * 0.12));
+                }
+
+                const noise = this.ctx.createBufferSource();
+                noise.buffer = buffer;
+
+                const filter = this.ctx.createBiquadFilter();
+                filter.type = 'highpass';
+                filter.frequency.setValueAtTime(2200, now);
+
+                const noiseGain = this.ctx.createGain();
+                noiseGain.gain.setValueAtTime(0.65, now);
+                noiseGain.gain.exponentialRampToValueAtTime(0.01, now + 0.35);
+
+                noise.connect(filter);
+                filter.connect(noiseGain);
+                noiseGain.connect(this.ctx.destination);
+
+                noise.start(now);
+
+                // Deep sub impact synth
+                const subOsc = this.ctx.createOscillator();
+                const subGain = this.ctx.createGain();
+                subOsc.type = 'triangle';
+                subOsc.frequency.setValueAtTime(150, now);
+                subOsc.frequency.exponentialRampToValueAtTime(30, now + 0.5);
+
+                subGain.gain.setValueAtTime(0.85, now);
+                subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+                subOsc.connect(subGain);
+                subGain.connect(this.ctx.destination);
+
+                subOsc.start(now);
+                subOsc.stop(now + 0.5);
+            }
+        }
+
+        const sound = new SoundEngine();
+
+        // Audio Toggle Logic
+        const soundToggleBtn = document.getElementById('soundToggleBtn');
+        const soundIcon = document.getElementById('soundIcon');
+
+        soundToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            sound.isEnabled = !sound.isEnabled;
+            if (sound.isEnabled) {
+                soundIcon.className = "fa-solid fa-volume-high";
+                sound.init();
+            } else {
+                soundIcon.className = "fa-solid fa-volume-xmark text-rose-400";
+            }
+        });
+
+        // =====================================================================
+        // BACKGROUND DYNAMIC PARTICLES ENGINE
+        // =====================================================================
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let themeMode = 'normal'; // 'normal', 'shatter', 'accepted'
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = -Math.random() * 0.6 - 0.2;
+                this.alpha = Math.random() * 0.6 + 0.2;
+                
+                if (themeMode === 'shatter') {
+                    this.color = Math.random() > 0.5 ? '#ff2a6d' : '#9d4edd';
+                } else if (themeMode === 'accepted') {
+                    this.color = Math.random() > 0.3 ? '#ffd166' : '#c084fc';
+                } else {
+                    this.color = Math.random() > 0.5 ? '#9d4edd' : '#818cf8';
+                }
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y < 0 || this.x < 0 || this.x > canvas.width) {
+                    this.reset();
+                    this.y = canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 75; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // =====================================================================
+        // SHATTER CANVAS (KYOKA SUIGETSU GLASS SHARDS)
+        // =====================================================================
+        const shatterCanvas = document.getElementById('shatterCanvas');
+        const sCtx = shatterCanvas.getContext('2d');
+        let shards = [];
+
+        function resizeShatterCanvas() {
+            shatterCanvas.width = window.innerWidth;
+            shatterCanvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeShatterCanvas);
+        resizeShatterCanvas();
+
+        class GlassShard {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 28 + 12;
+                this.vx = (Math.random() - 0.5) * 18;
+                this.vy = (Math.random() - 0.5) * 18 - 2;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.vRot = (Math.random() - 0.5) * 0.22;
+                this.alpha = 1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.22;
+                this.rotation += this.vRot;
+                this.alpha -= 0.012;
+            }
+
+            draw() {
+                if (this.alpha <= 0) return;
+                sCtx.save();
+                sCtx.translate(this.x, this.y);
+                sCtx.rotate(this.rotation);
+                sCtx.globalAlpha = Math.max(0, this.alpha);
+                
+                sCtx.beginPath();
+                sCtx.moveTo(0, -this.size / 2);
+                sCtx.lineTo(this.size / 2, this.size / 2);
+                sCtx.lineTo(-this.size / 2, this.size / 3);
+                sCtx.closePath();
+
+                sCtx.fillStyle = "rgba(255, 255, 255, 0.28)";
+                sCtx.strokeStyle = "rgba(255, 42, 109, 0.85)";
+                sCtx.lineWidth = 1.5;
+                sCtx.fill();
+                sCtx.stroke();
+                sCtx.restore();
+            }
+        }
+
+        function triggerShatterAnimation() {
+            shatterCanvas.classList.remove('hidden');
+            shards = [];
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+
+            for (let i = 0; i < 130; i++) {
+                shards.push(new GlassShard(centerX, centerY));
+            }
+
+            let frame = 0;
+            function renderShards() {
+                sCtx.clearRect(0, 0, shatterCanvas.width, shatterCanvas.height);
+                shards.forEach(shard => {
+                    shard.update();
+                    shard.draw();
+                });
+                frame++;
+                if (frame < 90) {
+                    requestAnimationFrame(renderShards);
+                } else {
+                    shatterCanvas.classList.add('hidden');
+                }
+            }
+            renderShards();
+        }
+
+        // =====================================================================
+        // STATE TRANSITIONS
+        // =====================================================================
+        const proposalCard = document.getElementById('proposalCard');
+        const shatterCard = document.getElementById('shatterCard');
+        const acceptedCard = document.getElementById('acceptedCard');
+        const flashOverlay = document.getElementById('flashOverlay');
+        const shatterTitle = document.getElementById('shatterTitle');
+
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const reconsiderBtn = document.getElementById('reconsiderBtn');
+
+        // REJECTION HANDLER ("Decline")
+        noBtn.addEventListener('click', () => {
+            sound.playShatterSound();
+            triggerShatterAnimation();
+
+            flashOverlay.className = "fixed inset-0 pointer-events-none z-40 animate-shatter-flash";
+            
+            proposalCard.classList.add('hidden');
+            shatterCard.classList.remove('hidden');
+            
+            shatterTitle.classList.add('glitch-active');
+            
+            themeMode = 'shatter';
+            particles.forEach(p => p.reset());
+
+            setTimeout(() => {
+                flashOverlay.className = "fixed inset-0 pointer-events-none z-40 opacity-0";
+            }, 500);
+        });
+
+        // ACCEPTANCE HANDLER ("Yes" or "Accept Fate")
+        function handleAcceptance() {
+            sound.playAcceptanceChimes();
+
+            proposalCard.classList.add('hidden');
+            shatterCard.classList.add('hidden');
+
+            acceptedCard.classList.remove('hidden');
+            
+            setTimeout(() => {
+                acceptedCard.classList.remove('scale-95', 'opacity-0');
+                acceptedCard.classList.add('scale-100', 'opacity-100');
+            }, 50);
+
+            themeMode = 'accepted';
+            particles.forEach(p => p.reset());
+        }
+
+        yesBtn.addEventListener('click', handleAcceptance);
+        reconsiderBtn.addEventListener('click', handleAcceptance);
+
+    </script>
+</body>
+</html>
